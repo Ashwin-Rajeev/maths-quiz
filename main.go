@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -28,7 +29,9 @@ func newQuiz() *Quiz {
 
 func main() {
 	q := newQuiz()
-	q.readFromCSV("problems.csv")
+	file := flag.String("file", "problems.csv", "give the path of input csv file")
+	flag.Parse()
+	q.readFromCSV(*file)
 	var input int
 	for {
 		fmt.Printf("\n\t\tWelcome to Online quiz \n\n")
