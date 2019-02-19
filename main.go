@@ -9,7 +9,8 @@ import (
 	"strconv"
 )
 
-// Quiz is a abstract struct
+// Quiz is a abstract struct for storing
+// the quiz information.
 type Quiz struct {
 	QuestionAndAnswer map[string]string
 	Marks             int
@@ -17,6 +18,8 @@ type Quiz struct {
 	Wrong             int
 }
 
+// newQuiz returns a new Quiz instance
+// with initialized map parameter.
 func newQuiz() *Quiz {
 	return &Quiz{
 		QuestionAndAnswer: make(map[string]string, 100),
@@ -43,6 +46,7 @@ func main() {
 	}
 }
 
+// readFromCSV read data from a csv file based on our input.
 func (q *Quiz) readFromCSV(filename string) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -63,6 +67,8 @@ func (q *Quiz) readFromCSV(filename string) {
 	}
 }
 
+// quizGame game is a function where the
+// actual game logic is taken place.
 func (q *Quiz) quizGame() {
 	q.Marks = 0
 	q.Right = 0
