@@ -44,11 +44,14 @@ func main() {
 		fmt.Println(err)
 	}
 	q.CustomInputTime = duration
-	q.readFromCSV(*file)
-	q.TotalQuestions = len(q.QuestionAndAnswer)
+	if q.readFromCSV(*file) != nil {
+		log.Fatal(err)
+	}
 	q.userInterface()
 }
 
+// userInterface is the command line
+// interface for the quiz game application.
 func (q *Quiz) userInterface() {
 	var input int
 	for {
@@ -71,15 +74,15 @@ func (q *Quiz) userInterface() {
 }
 
 // readFromCSV read data from a csv file based on our input.
-func (q *Quiz) readFromCSV(filename string) {
+func (q *Quiz) readFromCSV(filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	r := csv.NewReader(bufio.NewReader(file))
 	records, err := r.ReadAll()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	for i, k := range records {
 		for j, l := range k {
@@ -88,6 +91,8 @@ func (q *Quiz) readFromCSV(filename string) {
 			}
 		}
 	}
+	q.TotalQuestions = len(q.QuestionAndAnswer)
+	return nil
 }
 
 // quizGame game is a function where the
@@ -109,6 +114,7 @@ e:
 	if q.Timer.Reset(q.CustomInputTime) {
 		fmt.Printf("\nYour time start now...You have total of %d Seconds", q.CustomInputTime/1000000000)
 	}
+
 	// Creating a go routine for checking the time
 	go func() {
 		select {
