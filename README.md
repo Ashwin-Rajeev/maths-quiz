@@ -7,10 +7,11 @@ A simple command line quiz application built using golang. It read input as a cs
 
 ### CSV format
 
-| Question | Answer |
----|---|---|
-| 1+2, | 3 |
-| 5+5, | 10 |
+|   Questions	|   Answers	|	
+|---	|---	|
+|   1+1	|   2	|
+|   5-4	|   1	|
+|   2+9	|   11	|
 
 - Custom file input can used by ```-file``` flag
 - Game time can be customized by ```-time```
