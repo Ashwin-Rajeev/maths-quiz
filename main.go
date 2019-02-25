@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -56,9 +57,9 @@ func (q *Quiz) userInterface() {
 	var input int
 	for {
 		if !q.Timer.Reset(5 * time.Minute) {
-			fmt.Println("Timer reseted failed")
+			fmt.Println("Timer reset failed")
 		}
-		fmt.Printf("\n\t\tWelcome to Online quiz \n\n")
+		fmt.Printf("\n\t     WELCOME TO ONLINE QUIZ   \n\n")
 		fmt.Printf("********************************************\n")
 		fmt.Printf("\n\t\t1.Start quiz\n")
 		fmt.Printf("\t\t2.Exit\n\n")
@@ -102,9 +103,11 @@ func (q *Quiz) quizGame() {
 	q.Marks = 0
 	q.Right = 0
 	q.Wrong = 0
+	q.QuestionsAnswered = 0
 e:
 	fmt.Println("Shall we start the game? (y/n)")
 	fmt.Scan(&flag)
+	flag = strings.TrimSpace(strings.ToLower(flag))
 	if flag != "y" && flag != "n" {
 		fmt.Println("Invalid entry")
 		goto e
@@ -132,6 +135,7 @@ e:
 	k:
 		fmt.Printf("\nwhat is the result of %s : ", question)
 		fmt.Scan(&input)
+		input = strings.TrimSpace(input)
 		inp, err := strconv.Atoi(input)
 		if err != nil {
 			fmt.Println("Invalid input!")
@@ -153,7 +157,7 @@ e:
 		fmt.Println("Wrong answer!")
 		fmt.Printf("Right answer is %s \n", answer)
 	}
-	fmt.Printf("\nTotal questions: %d , You Answered: %d", q.TotalQuestions, q.QuestionsAnswered)
+	fmt.Printf("\nTotal questions: %d, You Answered: %d", q.TotalQuestions, q.QuestionsAnswered)
 	fmt.Printf("\nRight answers: %d, Wrong answers: %d", q.Right, q.Wrong)
 	fmt.Println("\n\tYour total points: ", q.Marks)
 }
